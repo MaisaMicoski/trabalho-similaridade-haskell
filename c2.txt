@@ -1,0 +1,16 @@
+module Main where
+
+fibonacci :: Int -> Int
+fibonacci n = 
+    if (n == 0) then 0
+    else if (n == 1) then 1
+    else fibonacci (n - 1) + fibonacci (n - 2)
+
+main :: IO ()
+main = do
+    let num = 10;
+    let res = fibonacci num;
+    if (res == 55) then
+        print "correto";
+    else
+        print "incorreto";

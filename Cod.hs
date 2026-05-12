@@ -15,6 +15,6 @@ ordenaRelatorio = sortBy regraDeOrdenacao
       | freq1 == freq2 = compare palavra1 palavra2 -- Se a frequência for igual, ordem alfabética (crescente)
       | otherwise      = compare freq2 freq1       -- Caso contrário, maior frequência primeiro (decrescente)
 
--- | 3. Função que junta tudo (a que você provavelmente vai exportar para sua equipe)
+-- | 3. Função que junta tudo 
 frequenciaProcessada :: [String] -> [(String, Int)]
 frequenciaProcessada palavras = ordenaRelatorio (contaFrequencia palavras)

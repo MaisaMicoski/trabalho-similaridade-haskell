@@ -41,25 +41,22 @@ ajustaText texto separadores =
             | otherwise                      = c   -- se não, mantém a letra
     in map substitui texto
 
---NOVO--
 --calcula a soma das frequencias em freq1 com base nas metricas definidas
-calculaSoma :: [(String, Int)] -> [(String, Int)] -> Int
-calculaSoma freq1 freq2 = 
+calculaM :: [(String, Int)] -> [(String, Int)] -> Int
+calculaM freq1 freq2 = 
     sum[f1 | (palavra, f1) <- freq1,
     Just f2 <- [lookup palavra freq2],
-    abs (f1-f2)*10 <= f1]
+    abs (f1-f2)*10 <= f1] --(f1-f2)<=f1/10
 
 --calcula o valor final do indice de similaridade
-calculaM :: [(String, Int)] -> [(String, Int)] -> Float
-calculaM freq1 freq2 = 
-    let m = calculaSoma freq1 freq2
+calculaInd:: [(String, Int)] -> [(String, Int)] -> Float
+calculaInd freq1 freq2 = 
+    let m = calculaM freq1 freq2
         somaF1 = sum[ f1 | (_, f1) <- freq1]
     in if somaF1 == 0
         then 0.0
         else fromIntegral m/ fromIntegral somaF1 
     
-
-
 --ajustaText: remove separadores
 --contaFreq: sort- junta as palavras iguais; group- agrupa palavras iguais; map- anota quantas vezes a palavra aparece em cada grupo
 --aplicaPeso: aplica a regra das palavras reservadas estabelecidas na atividade
@@ -79,11 +76,9 @@ main = do
     let reservadas = words textoRes
         separadores = words textoSep
         
-        -- 1. Limpamos os textos substituindo separadores por espaços
         textoC1Limpo = ajustaText textoC1 separadores
         textoC2Limpo = ajustaText textoC2 separadores
         
-        -- 2. AGORA sim quebramos em palavras (os espaços extras serão ignorados)
         codigo1 = words textoC1Limpo
         codigo2 = words textoC2Limpo
     
@@ -95,7 +90,6 @@ main = do
     let freqC2 = frequenciaProc codigo2 reservadas separadores
     print freqC2
 
-    --NOVO--
     putStrLn "\n--- Indice de similaridade ---"
     let m = calculaM freqC1 freqC2
     print m
